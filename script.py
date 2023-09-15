@@ -7,7 +7,8 @@ import json
 # If you need to get the column letter, also import this
 from openpyxl.utils import get_column_letter
 
-filename = '.\Estimados-Potencial-Renta.xlsx'
+#TODO: Convert this to a front end
+filename = 'Estimados-Potencial-Renta.xlsx' 
 
 # Access the spreadsheet to be updated
 wb = load_workbook(filename)
@@ -15,8 +16,8 @@ wb = load_workbook(filename)
 ws1 = wb.active
 ws2 = wb.copy_worksheet(ws1) # Copy template to new sheet
 
-state = input("Please add the state acronym (ex. FL)")
-cityinput= input("Please add the city (optional)")
+state = input("Please add the state acronym (ex. FL)") #TODO: Change to a lambda compatible input
+cityinput= input("Please add the city (optional)")     #TODO: Same
 city = ""
 
 # Create query string; create a function that can be applied to other values
@@ -58,8 +59,8 @@ def passDataExcel(address,price,size):
 
 
 # Load json data into a variable
-with open("sample.json", "w") as openfile:
-    openfile.write(data)
+    with open("sample.json", "w") as openfile:
+        openfile.write(data)
     
 with open("sample.json", "r") as openfile:
     json_object = json.load(openfile)
