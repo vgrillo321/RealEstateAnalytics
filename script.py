@@ -31,11 +31,12 @@ url_q = "city="+city+"&state="+state
 
 url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
+api_key=os.environ.get('RENTCAST_API_KEY')
+
 headers = {
     "accept": "application/json",
-    "X-Api-Key": "4bbec6c728f54cfd9e408d03c65e9870" # TODO: Pass API key safer
+    "X-Api-Key": api_key 
 }
-
 # Call API
 response = requests.get(url, headers=headers)
 
