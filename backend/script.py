@@ -8,8 +8,7 @@ state = input("Please add the state acronym (ex. FL)") #TODO: Change to a lambda
 cityinput= input("Please add the city (optional)")     #TODO: Same
 city = ""
 
-def configure():
-    load_dotenv()
+load_dotenv()
 
 # Create query string; create a function that can be applied to other values
 for i in range(len(cityinput)):
@@ -23,7 +22,7 @@ url_q = "city="+city+"&state="+state
 url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
 #TODO: Modify to pass key from .env file
-api_key=os.environ.get('RENTCAST_API_KEY')
+api_key = os.getenv('RENTCAST_API_KEY')
 
 headers = {
     "accept": "application/json",
@@ -36,7 +35,7 @@ response = requests.get(url, headers=headers)
 # Add response as text data
 data = response.text
 
-loopCounter = 0 #TODO: add as input depending on the sample data needed
+loopCounter = 0 
 jsonObjectNumber = 0
 list_counter=0
 
@@ -54,22 +53,24 @@ with open("sample.json", "r") as openfile:
     rentalSampleDict = {}
     rentalPricePerSQFT = []
     while loopCounter < 15:
-
-        address = json_object[jsonObjectNumber]["addressLine1"]
-        price = json_object[jsonObjectNumber]["price"]
-        
-        if not (json_object[jsonObjectNumber].get('squareFootage') is None):
-            sqft = json_object[jsonObjectNumber]["squareFootage"]
-            pricePerSqft=round(price/sqft, 2)
-            rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
-            rentalSampleDict = {"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}
-            averagePricePerSQFT += pricePerSqft 
-            loopCounter+=1
-            list_counter+=1
-        
-            print (rentalSampleDict)
-        
-        jsonObjectNumber+=1
+        try: 
+            address = json_object[jsonObjectNumber]["addressLine1"]
+            price = json_object[jsonObjectNumber]["price"]
+            
+            if not (json_object[jsonObjectNumber].get('squareFootage') is None):
+                sqft = json_object[jsonObjectNumber]["squareFootage"]
+                pricePerSqft=round(price/sqft, 2)
+                rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
+                rentalSampleDict = {"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}
+                averagePricePerSQFT += pricePerSqft 
+                loopCounter+=1
+                list_counter+=1
+            
+                print (rentalSampleDict) #TODO: Pass to Table in front end
+            
+            jsonObjectNumber+=1
+        except IndexError:
+            break
 
 print("Im outside the json file now ----------------------")
 print(rentalSampleDict)

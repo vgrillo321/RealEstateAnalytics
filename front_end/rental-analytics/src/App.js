@@ -78,14 +78,19 @@ function App() {
         {/*TODO: Adding form to get city and state from user to pass to backend script */}
         <form action="">
             {/* City name as text input */}
-            <label for="fcity">City: </label>
-            <input type="text" id="fcity" name="fcity"></input>
-            <br></br>
+            <div className='App-form'>
+              <label for="fcity">City: </label>
+              <input className='StateList__control' type="text" id="fcity" name="fcity"></input>
+            </div>
             {/* TODO: States on list item, pass abbreviation to script */}
-            State: <Select 
+            <div className='App-form'>
+              <label for="fstate">State: </label>
+              <Select 
+                      className='StateList__control'
                       options={unitedStatesList}
-                      getOptionLabel={(options) => options['name']} 
-                      onChange={opt => console.log(opt.name, opt.abbreviation)} />
+                      getOptionLabel={(options) => options['abbreviation']} 
+                      onChange={opt => console.log(opt.name, opt.abbreviation)} /> 
+            </div>
           </form>
         </div>
       </div>
