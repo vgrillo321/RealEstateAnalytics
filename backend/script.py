@@ -4,78 +4,89 @@ import json
 from dotenv import load_dotenv
 import os
 
-state = input("Please add the state acronym (ex. FL)") #TODO: Change to a lambda compatible input
-cityinput= input("Please add the city (optional)")     #TODO: Same
-city = ""
+# #TODO: Bring input from react
+state = input("Please add the state acronym (ex. FL)") 
+city= input("Please add the city (optional)")    
 
-load_dotenv()
-
-# Create query string; create a function that can be applied to other values
-for i in range(len(cityinput)):
-    if cityinput[i] == " ":
-        city+="%20"
-        continue
-    city += cityinput[i]
+def rentcastApiCall(cityinput, state):
     
-url_q = "city="+city+"&state="+state
+    #TODO: Bring input from react
+    # state = input("Please add the state acronym (ex. FL)") 
+    # city= input("Please add the city (optional)")    
 
-url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
+    city = ''
 
-#TODO: Modify to pass key from .env file
-api_key = os.getenv('RENTCAST_API_KEY')
+    # Create query string; create a function that can be applied to other values
+    for i in range(len(cityinput)):
+        if cityinput[i] == " ":
+            city+="%20"
+            continue
+        city += cityinput[i]
+        
+    url_q = "city="+city+"&state="+state
 
-headers = {
-    "accept": "application/json",
-    "X-Api-Key": api_key # TODO: Pass API key safer
-}
+    url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
-# Call API
-response = requests.get(url, headers=headers)
+    #TODO: Modify to pass key from .env file
+    api_key = os.getenv('RENTCAST_API_KEY')
 
-# Add response as text data
-data = response.text
+    headers = {
+        "accept": "application/json",
+        "X-Api-Key": api_key # TODO: Pass API key safer
+    }
 
-loopCounter = 0 
-jsonObjectNumber = 0
-list_counter=0
+    # Call API
+    response = requests.get(url, headers=headers)
 
-# print(os.getcwd())
-averagePricePerSQFT=0
+    # Add response as text data
+    data = response.text
 
-# Load json data into a variable
-with open("sample.json", "w") as openfile:
-    openfile.write(data)
+    # Load json data into a variable
+    with open("sample.json", "w") as openfile:
+        openfile.write(data)
 
-# Open the sample file
-with open("sample.json", "r") as openfile: 
-    json_object = json.load(openfile)
+def analyzeRentData():
 
-    rentalSampleDict = {}
-    rentalPricePerSQFT = []
-    while loopCounter < 15:
-        try: 
-            address = json_object[jsonObjectNumber]["addressLine1"]
-            price = json_object[jsonObjectNumber]["price"]
-            
-            if not (json_object[jsonObjectNumber].get('squareFootage') is None):
-                sqft = json_object[jsonObjectNumber]["squareFootage"]
-                pricePerSqft=round(price/sqft, 2)
-                rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
-                rentalSampleDict = {"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}
-                averagePricePerSQFT += pricePerSqft 
-                loopCounter+=1
-                list_counter+=1
-            
-                print (rentalSampleDict) #TODO: Pass to Table in front end
-            
-            jsonObjectNumber+=1
-        except IndexError:
-            break
+    loopCounter = 0 
+    jsonObjectNumber = 0
+    list_counter=0
 
-print("Im outside the json file now ----------------------")
-print(rentalSampleDict)
-averagePricePerSQFT= round(averagePricePerSQFT/list_counter, 2)
-print ("The average price per sqft in the area is: " + str(averagePricePerSQFT))
+    # print(os.getcwd())
+    averagePricePerSQFT=0
+
+    # Open the sample file
+    with open("sample.json", "r") as openfile: 
+        json_object = json.load(openfile)
+
+        rentalSampleDict = {}
+        rentalPricePerSQFT = []
+        while loopCounter < 15:
+            try: 
+                address = json_object[jsonObjectNumber]["addressLine1"]
+                price = json_object[jsonObjectNumber]["price"]
+                
+                if not (json_object[jsonObjectNumber].get('squareFootage') is None):
+                    sqft = json_object[jsonObjectNumber]["squareFootage"]
+                    pricePerSqft=round(price/sqft, 2)
+                    rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
+                    rentalSampleDict = {"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}
+                    averagePricePerSQFT += pricePerSqft 
+                    loopCounter+=1
+                    list_counter+=1
+                
+                    # print (rentalSampleDict) #TODO: Pass to Table in front end
+                
+                jsonObjectNumber+=1
+            except IndexError:
+                break
+        
+        averagePricePerSQFT= round(averagePricePerSQFT/list_counter, 2)
+        
+        return (rentalSampleDict, averagePricePerSQFT)
+
+# rentcastApiCall(city,state)
+# print (analyzeRentData())
+
 
 
 
