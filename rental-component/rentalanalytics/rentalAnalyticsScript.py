@@ -2,7 +2,7 @@ import requests
 import urllib
 import json
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # from members.models import Member
 
 # city = ''
@@ -69,25 +69,28 @@ def insertSampleRentData():
         rentalPricePerSQFT = []
         objectCount = len(json_object)
 
-        while loopCounter < objectCount:
-            try: 
-                address = json_object[jsonObjectNumber]["addressLine1"]
-                price = json_object[jsonObjectNumber]["price"]
-                
-                if not (json_object[jsonObjectNumber].get('squareFootage') is None):
-                    sqft = json_object[jsonObjectNumber]["squareFootage"]
-                    pricePerSqft=round(price/sqft, 2)
-                    rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
-                    rentalSample += [{"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}]
-                    averagePricePerSQFT += pricePerSqft 
-                    loopCounter+=1
-                    list_counter+=1
-                
-                    # print (rentalSampleDict) #TODO: Pass to Models in Django Database
-                
-                jsonObjectNumber+=1
-            except IndexError:
-                break
+        try:
+            while loopCounter < objectCount:
+                try: 
+                    address = json_object[jsonObjectNumber]["addressLine1"]
+                    price = json_object[jsonObjectNumber]["price"]
+                    
+                    if not (json_object[jsonObjectNumber].get('squareFootage') is None):
+                        sqft = json_object[jsonObjectNumber]["squareFootage"]
+                        pricePerSqft=round(price/sqft, 2)
+                        rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
+                        rentalSample += [{"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}]
+                        averagePricePerSQFT += pricePerSqft 
+                        loopCounter+=1
+                        list_counter+=1
+                    
+                        # print (rentalSampleDict) #TODO: Pass to Models in Django Database
+                    
+                    jsonObjectNumber+=1
+                except IndexError:
+                    break
+        except KeyError:
+            return()
 
         
         sortedPricePerSqft = sorted(rentalPricePerSQFT)
@@ -99,20 +102,20 @@ def insertSampleRentData():
 
 
 # Calls for testing
-city = 'Oxon Hill'
-state = 'MD'
+# city = 'Oxon Hill'
+# state = 'MD'
 # Call rent cast APU NOTE: This may inquire cost, use carefully
-rentcastApiCall(city, state)
+#rentcastApiCall(city, state)
 
 # NOTE: Prints de prueba
-sample , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
-print (sample)
-print ("---------------------------------------------------")
-print (f"Analyzed an amount of {len(sample)} rental listings in {city}")
-print ("---------------------------------------------------")
-print (f"This is the min price per sqft: {minPricePerSQFT}")
-print (f"This is the average price per sqft: {averagePricePerSQFT}")
-print (f"This is the max price per sqft: {maxPricePerSQFT}")
+# sample , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
+# print (sample)
+# print ("---------------------------------------------------")
+# print (f"Analyzed an amount of {len(sample)} rental listings in {city}")
+# print ("---------------------------------------------------")
+# print (f"This is the min price per sqft: {minPricePerSQFT}")
+# print (f"This is the average price per sqft: {averagePricePerSQFT}")
+# print (f"This is the max price per sqft: {maxPricePerSQFT}")
 
 
 
