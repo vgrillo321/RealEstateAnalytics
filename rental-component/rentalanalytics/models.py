@@ -6,6 +6,8 @@ class RentalProperties(models.Model):
 
 
     address=models.CharField(max_length=150)
+    city=models.CharField(max_length=150)
+    state=models.CharField(max_length=3)
     price=models.CharField(max_length=500)
     size=models.CharField(max_length=500)
     pricePerSqft=models.CharField(max_length=500)

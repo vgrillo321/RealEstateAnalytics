@@ -99,12 +99,12 @@ def insertSampleRentData():
 
 
 # Calls for testing
-city = 'Fairfax'
-state = 'VA'
+city = 'Oxon Hill'
+state = 'MD'
 # Call rent cast APU NOTE: This may inquire cost, use carefully
 rentcastApiCall(city, state)
 
-
+# NOTE: Prints de prueba
 sample , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
 print (sample)
 print ("---------------------------------------------------")

@@ -1,27 +1,29 @@
 import requests
 import urllib
 import json
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-# #TODO: Bring input from react
-state = input("Please add the state acronym (ex. FL)") 
-city= input("Please add the city (optional)")    
 
-def rentcastApiCall(cityinput, state):
+# city = ''
+# state = ''
+# rentcastApiCall(city,state)
+
+
+
+def rentcastApiCall(city, state):
     
-    #TODO: Bring input from react
-    # state = input("Please add the state acronym (ex. FL)") 
-    # city= input("Please add the city (optional)")    
-
+#TODO: Bring input from react
+    # stateinput = state       # input("Please add the state acronym (ex. FL)") 
+    cityInput = city              # input("Please add the city (optional)") 
     city = ''
 
     # Create query string; create a function that can be applied to other values
-    for i in range(len(cityinput)):
-        if cityinput[i] == " ":
+    for i in range(len(cityInput)):
+        if cityInput[i] == " ":
             city+="%20"
             continue
-        city += cityinput[i]
+        city += cityInput[i]
         
     url_q = "city="+city+"&state="+state
 
@@ -44,8 +46,9 @@ def rentcastApiCall(cityinput, state):
     # Load json data into a variable
     with open("sample.json", "w") as openfile:
         openfile.write(data)
+        openfile.close()
 
-def analyzeRentData():
+def insertSampleRentData():
 
     loopCounter = 0 
     jsonObjectNumber = 0
@@ -58,9 +61,11 @@ def analyzeRentData():
     with open("sample.json", "r") as openfile: 
         json_object = json.load(openfile)
 
-        rentalSampleDict = {}
+        rentalSample = []
         rentalPricePerSQFT = []
-        while loopCounter < 15:
+        objectCount = len(json_object)
+
+        while loopCounter < objectCount:
             try: 
                 address = json_object[jsonObjectNumber]["addressLine1"]
                 price = json_object[jsonObjectNumber]["price"]
@@ -69,12 +74,12 @@ def analyzeRentData():
                     sqft = json_object[jsonObjectNumber]["squareFootage"]
                     pricePerSqft=round(price/sqft, 2)
                     rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
-                    rentalSampleDict = {"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}
+                    rentalSample += [{"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}]
                     averagePricePerSQFT += pricePerSqft 
                     loopCounter+=1
                     list_counter+=1
                 
-                    # print (rentalSampleDict) #TODO: Pass to Table in front end
+                    # print (rentalSampleDict) #TODO: Pass to Models in Django Database
                 
                 jsonObjectNumber+=1
             except IndexError:
@@ -82,10 +87,19 @@ def analyzeRentData():
         
         averagePricePerSQFT= round(averagePricePerSQFT/list_counter, 2)
         
-        return (rentalSampleDict, averagePricePerSQFT)
+        return (rentalSample, averagePricePerSQFT)
 
-# rentcastApiCall(city,state)
-# print (analyzeRentData())
+
+# Calls for testing
+
+# Call rent cast APU NOTE: This may inquire cost, use carefully
+# rentcastApiCall('Temple Hills', 'MD')
+
+
+sample , averagePricePerSQFT = insertSampleRentData()
+print (sample)
+print (len(sample))
+print (averagePricePerSQFT)
 
 
 
