@@ -1,6 +1,8 @@
 
 from django.shortcuts import render, redirect
+
 import requests
+
 from rentalanalytics.rentalAnalyticsScript import rentcastApiCall, insertSampleRentData
  
 # import view sets from the REST framework
@@ -20,11 +22,22 @@ class RentalAnalyticsView(viewsets.ModelViewSet):
     serializer_class = RentalAnalysisSerializer
  
     # define a variable and populate it
-    # with the Todo list objects
+    # with the rental properties list objects
     queryset = RentalProperties.objects.all()
 
 
 def index(request):
     # api call
-    # 
-    return render(request, 'index.html')
+    city = 'Miami'
+    state = 'FL'
+    # rentcastApiCall(city, state)
+    properties , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
+
+    context = {
+        'properties': properties,
+        'averagePricePerSQFT': averagePricePerSQFT,
+        'maxPricePerSQFT': maxPricePerSQFT,
+        'minPricePerSQFT': minPricePerSQFT,
+    }
+
+    return render(request, 'index.html', context)

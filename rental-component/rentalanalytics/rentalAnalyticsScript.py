@@ -5,12 +5,6 @@ import os
 # from dotenv import load_dotenv
 # from members.models import Member
 
-# city = ''
-# state = ''
-# rentcastApiCall(city,state)
-
-
-
 def rentcastApiCall(city, state):
     
 #TODO: Bring input from react
@@ -34,11 +28,11 @@ def rentcastApiCall(city, state):
     url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
     #TODO: Modify to pass key from .env file
-    api_key = os.getenv('RENTCAST_API_KEY')
+    # api_key = os.getenv('RENTCAST_API_KEY')
 
     headers = {
         "accept": "application/json",
-        "X-Api-Key": api_key # TODO: Pass API key safer
+        "X-Api-Key": '3c35b048032745f2bc3b28cfc362e12f' # TODO: Pass API key safer
     }
 
     # Call API
@@ -90,6 +84,7 @@ def insertSampleRentData():
                 except IndexError:
                     break
         except KeyError:
+            
             return()
 
         
@@ -102,10 +97,10 @@ def insertSampleRentData():
 
 
 # Calls for testing
-# city = 'Oxon Hill'
+# city = 'Baltimore'
 # state = 'MD'
 # Call rent cast APU NOTE: This may inquire cost, use carefully
-#rentcastApiCall(city, state)
+# rentcastApiCall(city, state)
 
 # NOTE: Prints de prueba
 # sample , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
