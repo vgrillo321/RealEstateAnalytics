@@ -8,17 +8,17 @@
 </head>
 <body>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Property Listings</h1>
+        <h1 class="text-2xl font-bold mb-4">Rental Listings</h1>
 
         <!-- New container for averages, min, and max -->
         <div class="border border-gray-200 rounded-lg p-4 mb-4">
-            <h2 class="text-xl font-semibold">Property Statistics</h2>
+            <h2 class="text-xl font-semibold">Rental Statistics</h2>
             <p class="text-gray-700">Average Price Per SQFT: ${{ averagePricePerSQFT }}</p>
             <p class="text-gray-700">Max Price Per SQFT: ${{ maxPricePerSQFT }}</p>
             <p class="text-gray-700">Min Price Per SQFT: ${{ minPricePerSQFT }}</p>
         </div>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Property Listings</h1>
+        <h1 class="text-2xl font-bold mb-4">Rental Listings</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for property in properties %}
                 <div class="border border-gray-200 rounded-lg p-4">
