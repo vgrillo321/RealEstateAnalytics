@@ -13,7 +13,10 @@ from .serializers import RentalAnalysisSerializer
  
 # import the Todo model from the models file
 from .models import RentalProperties
- 
+
+# Import form from input
+from .forms import CityStateForm
+
 # create a class for the Todo model viewsets
 class RentalAnalyticsView(viewsets.ModelViewSet):
  
@@ -27,14 +30,41 @@ class RentalAnalyticsView(viewsets.ModelViewSet):
 
 
 def index(request):
-    # api call
-    city = 'Miami'
-    state = 'FL'
-    # rentcastApiCall(city, state)
-    properties , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
+    # TODO: api call must be done separately to prevent overspending
+    
+    if request.method == 'POST':
+        form = CityStateForm(request.POST)
+        if form.is_valid():
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            rentcastApiCall(city, state)
+            properties , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
+        
+        #Check if properties is empty
+        if properties and 'city' in properties[0]:
+            cityInput = properties[0]['city']
+            stateInput = properties[0]['state']
+        else:
+            cityInput = None
+            stateInput = None
+
+    else:
+        form = None
+        properties , averagePricePerSQFT, maxPricePerSQFT, minPricePerSQFT = insertSampleRentData()
+        
+        # Check if properties is empty/ Extract values from sample
+        if properties and 'city' in properties[0]:
+            cityInput = properties[0]['city']
+            stateInput = properties[0]['state']
+        else:
+            cityInput = None
+            stateInput = None
 
     context = {
+        'form': form,
         'properties': properties,
+        'city':cityInput,
+        'state':stateInput,
         'averagePricePerSQFT': averagePricePerSQFT,
         'maxPricePerSQFT': maxPricePerSQFT,
         'minPricePerSQFT': minPricePerSQFT,

@@ -67,13 +67,15 @@ def insertSampleRentData():
             while loopCounter < objectCount:
                 try: 
                     address = json_object[jsonObjectNumber]["addressLine1"]
+                    city = json_object[jsonObjectNumber]["city"]
+                    state = json_object[jsonObjectNumber]["state"]
                     price = json_object[jsonObjectNumber]["price"]
                     
                     if not (json_object[jsonObjectNumber].get('squareFootage') is None):
                         sqft = json_object[jsonObjectNumber]["squareFootage"]
                         pricePerSqft=round(price/sqft, 2)
                         rentalPricePerSQFT.insert(list_counter,pricePerSqft) #TODO: Pass each one to front end or field on API
-                        rentalSample += [{"address":address, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}]
+                        rentalSample += [{"address":address, "city": city, "state": state, "price":price, "size":sqft, "pricesqft":rentalPricePerSQFT[list_counter]}]
                         averagePricePerSQFT += pricePerSqft 
                         loopCounter+=1
                         list_counter+=1
