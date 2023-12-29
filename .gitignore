@@ -1,2 +1,5 @@
+.gitignore
 .env
 rental-analytics
+**/__pycache__/
+*.pyc
