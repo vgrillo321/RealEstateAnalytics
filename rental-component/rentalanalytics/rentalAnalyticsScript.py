@@ -10,8 +10,6 @@ api_key = os.getenv('RENTCAST_API_KEY')
 
 # from members.models import Member
 
-<<<<<<< HEAD
-=======
 
 # city = ''
 # state = ''
@@ -19,7 +17,6 @@ api_key = os.getenv('RENTCAST_API_KEY')
 
 
 
->>>>>>> d83f0c8 (adding .env-sample and .gitignore)
 def rentcastApiCall(city, state):
     
 #TODO: Bring input from react
