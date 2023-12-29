@@ -2,9 +2,24 @@ import requests
 import urllib
 import json
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
+
+
+load_dotenv()
+api_key = os.getenv('RENTCAST_API_KEY')
+
 # from members.models import Member
 
+<<<<<<< HEAD
+=======
+
+# city = ''
+# state = ''
+# rentcastApiCall(city,state)
+
+
+
+>>>>>>> d83f0c8 (adding .env-sample and .gitignore)
 def rentcastApiCall(city, state):
     
 #TODO: Bring input from react
@@ -28,7 +43,11 @@ def rentcastApiCall(city, state):
     url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
     #TODO: Modify to pass key from .env file
+<<<<<<< HEAD
     # api_key = os.getenv('RENTCAST_API_KEY')
+=======
+    
+>>>>>>> d83f0c8 (adding .env-sample and .gitignore)
 
     headers = {
         "accept": "application/json",

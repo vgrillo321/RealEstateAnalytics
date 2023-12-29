@@ -1,3 +1,10 @@
+.gitignore
 .env
+<<<<<<< HEAD
 ./rental-component/rentalanalytics/__pycache__/
 rental-analytics
+=======
+rental-analytics
+**/__pycache__/
+*.pyc
+>>>>>>> d83f0c8 (adding .env-sample and .gitignore)
