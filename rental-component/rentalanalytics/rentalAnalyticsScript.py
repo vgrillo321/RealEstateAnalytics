@@ -40,11 +40,7 @@ def rentcastApiCall(city, state):
     url = "https://api.rentcast.io/v1/listings/rental/long-term?"+url_q
 
     #TODO: Modify to pass key from .env file
-<<<<<<< HEAD
-    # api_key = os.getenv('RENTCAST_API_KEY')
-=======
-    
->>>>>>> d83f0c8 (adding .env-sample and .gitignore)
+    api_key = os.getenv('RENTCAST_API_KEY')
 
     headers = {
         "accept": "application/json",
