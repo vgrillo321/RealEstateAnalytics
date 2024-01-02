@@ -3,6 +3,7 @@ from django.contrib import admin
  
 # add include to the path
 from django.urls import path, include
+
  
 # import views from todo
 from rentalanalytics import views
@@ -23,7 +24,9 @@ urlpatterns = [
     # add another path to the url patterns
     # when you visit the localhost:8000/api
     # you should be routed to the django Rest framework
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('rentalanalytics/', include('rentalanalytics.urls'))
+    
 
     #path to actual rental analystics page
     # path('rentals/', include(router.urls))
