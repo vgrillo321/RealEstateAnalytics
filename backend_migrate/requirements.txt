@@ -1,6 +1,0 @@
-boto3
-openpyxl
-requests
-urllib
-json
-python-dotenv

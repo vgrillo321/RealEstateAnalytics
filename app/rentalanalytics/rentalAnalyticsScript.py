@@ -44,7 +44,7 @@ def rentcastApiCall(city, state):
 
     headers = {
         "accept": "application/json",
-        "X-Api-Key": '3c35b048032745f2bc3b28cfc362e12f' # TODO: Pass API key safer
+        "X-Api-Key": api_key # TODO: Pass API key safer
     }
 
     # Call API
